@@ -22,6 +22,7 @@ from django.contrib.auth import views as auth
 from django.contrib.auth.decorators import login_required
 from orders.views import *
 from django.contrib.auth import update_session_auth_hash
+from django.views.static import serve 
 
 
 admin.site.site_header = 'Administration Commande Poulets et oeufs SEDIMA '
@@ -40,6 +41,10 @@ urlpatterns = [
     re_path(r'^users/change_password/done/$', login_required(auth.PasswordChangeDoneView.as_view(template_name= 'orders/order/password_change_done.html')), name='password_change_done'),
 
     re_path(r'^', include('templated_email.urls', namespace='templated_email')),
+
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
+
 
 ]
 
