@@ -1,0 +1,81 @@
+{% load static %}
+{% load bootstrap3 %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+</head>
+<body oncontextmenu="return false;">
+
+<div class="container">
+    <div class="page-header">
+        <a href="/"><h1>Commande Poulet œuf Sedima</h1></a>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {# call __len__ #}
+            {% with total_items=cart|length %}
+                {% if cart|length > 0 %}
+                    Votre panier:
+                    <a href="{% url "cart:cart_detail" %}">
+                        {# If total_items is 1, the output will be 1 item. #}
+                        {# If total_items is 2, the output will be 2 items. #}
+                        {{ total_items }} produit{{ total_items|pluralize }},
+                        {{ cart.get_total_price }} FCFA
+                    </a>
+                {% else %}
+                Votre panier est vide.
+                {% endif %}
+            {% endwith %}
+            <a href="/users/logout/">Deconnexion</a>
+            <a href="{% url 'change_password' %}">Changer mot de passe</a>
+        </div>
+    </div>
+    <!-- BEGIN BASE-->
+		<div id="base">
+
+			<!-- BEGIN OFFCANVAS LEFT -->
+			<div class="offcanvas">
+			</div><!--end .offcanvas-->
+			<!-- END OFFCANVAS LEFT -->
+
+			<!-- BEGIN CONTENT-->
+			<div id="content">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert {{ message.tags }} text-center"{% endif %}>
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+                {% block body %}
+
+                {% endblock %}
+
+			</div><!--end #content-->
+			<!-- END CONTENT -->
+
+
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

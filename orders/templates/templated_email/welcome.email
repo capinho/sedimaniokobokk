@@ -1,0 +1,19 @@
+{% block subject %}Commande effectuer avec succes {% endblock %}
+{% block plain %}
+  Bonjour {{full_name}},
+
+  Votre commande a bien été reçue.
+  Vous recevrez votre commande dans les plus brefs délais.
+
+  Merci!
+{% endblock %}
+
+{% block html %}
+  <p>Bonjour <b>{{full_name}}<b>,</p>
+
+  <p>Votre commande a bien été reçue.</p>
+  <p>Vous recevrez votre commande dans les plus brefs délais.</p>
+
+  <p>Merci!</p>
+
+{% endblock %}

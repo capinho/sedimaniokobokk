@@ -1,0 +1,153 @@
+{% extends "shop/layout.html" %}
+{% load static %}
+
+{% load bootstrap3 %}
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block body %}
+
+    <!--<div class="panel panel-primary" style="background-color:#FFFFFF">
+        <div class="panel-heading">Votre commande</div>
+        <div class="panel-body">
+            <ul class="list-group">
+                {% for item in cart %}
+                    <li class="list-group-item">
+                        {{ item.total_price }} FCFA
+                        <span class="badge">{{ item.product.name }} x{{ item.quantity }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p>Total: {{ cart.get_total_price }} FCFA</p>
+
+        </div>
+    </div>-->
+
+    <section>
+        <div class="section-header">
+<ol class="breadcrumb">
+  <li class="active">Bon de commande</li>
+</ol>
+</div>
+<div class="section-body">
+            <div class="row">
+  <div class="col-lg-12">
+    <div class="card card-printable style-default-light">
+      <div class="card-head">
+        <div class="tools">
+          <div class="btn-group">
+            <a class="btn btn-floating-action btn-primary" href="javascript:void(1);" onclick="javascript:window.print();"><i class="md md-print"></i></a>
+          </div>
+        </div>
+      </div><!--end .card-head -->
+      <div class="card-body style-default-bright" id="print">
+
+        <!-- BEGIN INVOICE HEADER -->
+        <div class="row">
+          <!--<div class="col-xs-2">
+            <img src="{% static 'img/django_logo.png' %}" class="invoice_logo" width="100%">
+          </div>-->
+          <div class="col-xs-8">
+            <img src="{% static 'img/sedima.png' %}" alt="">
+            <p>SEDIMA GROUP Autoroute a peage <br>sortie Numéro 9 rufisque ouest</p>
+          </div>
+          <div class="col-xs-4 text-right">
+            <h1 class="text-light text-default-light">Bon de commande</h1>
+          </div>
+        </div><!--end .row -->
+        <!-- END INVOICE HEADER -->
+
+        <br/>
+
+        <!-- BEGIN INVOICE DESCRIPTION -->
+        <div class="row">
+          <div class="col-xs-8">
+            <h4 class="text-light">Commande pour :</h4>
+            <address>
+              <strong>{{ user.get_full_name }}</strong><br>
+              <b>Matricule:</b> {{ user.profile.matricule }}
+            </address>
+          </div><!--end .col -->
+          <div class="col-xs-4">
+            <div class="well">
+              <div class="clearfix">
+                <div class="pull-right"> {{ order.id }} </div>
+              </div>
+              <div class="clearfix">
+                <div class="pull-left"> Date Bon de commande:</div>
+                <div class="pull-right">{%now "j F Y" %} </div>
+              </div>
+              <div class="clearfix">
+                <div class="pull-left"> Date de livraison : </div>
+                <div class="pull-right"> {{ order.delivery_date }} </div>
+              </div>
+            </div>
+          </div><!--end .col -->
+        </div><!--end .row -->
+        <!-- END INVOICE DESCRIPTION -->
+
+        <br/>
+
+        <!-- BEGIN INVOICE PRODUCTS -->
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width:60px" class="text-center">QTY</th>
+                  <th class="text-left">DESCRIPTION</th>
+                  <th style="width:90px" class="text-right">TARIF UNITAIRE</th>
+                  <th style="width:90px" class="text-right">MONTANT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+
+                  <td class="text-center">{%for item in cart%}{{ item.quantity }}<br>{%endfor%}</td>
+                  <td> <b>{%for item in cart%}{{ item.product.name }}</br>{%endfor%}</b> <br><small>{{ item.product.description}}</small></td>
+                  <td class="text-right"> {%for item in cart%}{{ item.price }} FCFA<br>{%endfor%}</td>
+                  <td class="text-right">{%for item in cart%}{{ item.total_price }} FCFA<br>{%endfor%}</td>
+                </tr>
+                <tr>
+                  <td colspan="2" rowspan="4">
+                    <h3 class="text-light opacity-50">Notes</h3>
+                    <p><small>Nous vous rappelons que ce montant est approximatif et peut varier en fonction du poids des découpes.</small></p><br><br>
+                    <p style="color:red">Attention toutes commandes finaliser ne pourra plus être modifier.</p><br><br>
+                    <p><strong><em>Recu par __________________</em></strong></p>
+                  </td>
+                  <td class="text-right"><strong>Somme</strong></td>
+                  <td class="text-right">FCFA {{ cart.get_total_price }}</td>
+                </tr>
+                <tr>
+                  <td class="text-right hidden-border"><strong>TVA</strong></td>
+                  <td class="text-right hidden-border">FCFA 0.00</td>
+                </tr>
+                <tr>
+                  <td class="text-right"><strong class="text-lg text-accent">Total</strong></td>
+                  <td class="text-right"><strong class="text-lg text-accent">FCFA {{ cart.get_total_price  }}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!--end .col -->
+        </div><!--end .row -->
+        <!-- END INVOICE PRODUCTS -->
+
+      </div><!--end .card-body -->
+    </div><!--end .card -->
+  </div><!--end .col -->
+</div><!--end .row -->
+</div><!--end .section-body -->
+    </section>
+
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-success btn-product" >
+                <span class="glyphicon glyphicon-shopping-cart"></span> Finaliser Commande
+            </button>
+        {% endbuttons %}
+    </form>
+
+{% endblock %}

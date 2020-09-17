@@ -1,0 +1,115 @@
+{% extends "shop/layout.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Produits{% endif %}
+{% endblock %}
+{% block css %}
+<style>
+$tablet: 'max-width: 1024px'; // just for now. usually 1024
+$mobile: 'max-width: 767px'; // just for now. usually 767
+html{
+    box-sizing:border-box;
+    & * {
+        box-sizing:inherit;
+    }
+}
+img {
+    max-width:100%;
+    height:auto;
+}
+
+body{
+  background-color: #ffffff;
+}
+#container {
+    max-width: 900px;
+    margin: 0 auto;
+
+    .imgContainer{
+        width: 100%;
+        line-height: 0;
+        font-size: 0;
+    }
+
+}
+
+.image {
+
+   display:inline-block;
+    padding: 5px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+
+    width: 32.5%;
+    @media (#{$tablet}){
+        width: 50%;
+    }
+    @media (#{$mobile}){
+        width: 100%;
+    }
+    img {
+        vertical-align:top;
+    }
+}
+.image:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+</style>
+{%endblock%}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Categories</h3>
+            <ul class="nav nav-pills nav-stacked">
+                <li {% if not category %}class="active"{% endif %}>
+                    <a href="{% url "shop:product_list" %}">Toutes les categories</a>
+                </li>
+                {% for c in categories %}
+                    <li {% if category.slug == c.slug %}class="active"{% endif %}>
+                        <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+  <!--           <div class="col-md-9">
+            <h2>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h2>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <a href="{{ product.get_absolute_url }}">
+                                <img src="{% if product.image %}{{ product.image.url }}
+                                          {% else %}{% static "img/no_image.png" %} {% endif %}">
+                            </a>
+                            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                            ${{ product.price }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+
+        </div>-->
+            <div class="col-md-9">
+              <div id="container">
+                <h2>{% if category %}{{ category.name }}{% else %}Tous les Produits{% endif %}</h2>
+                  <div class="imgContainer">
+                      {% for product in products %}
+                          <div class="image">
+                            <a href="{{ product.get_absolute_url }}">
+                              <img src="{% if product.image %}{{ product.image.url }}
+                              {% else %}{% static "img/no_image.png" %} {% endif %}">
+                            </a>
+                            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                            <h3>{{ product.price }} FCFA</h3>
+                          </div>
+                      {%endfor%}
+                  </div>
+            </div>
+           </div>
+
+    </div>
+{% endblock %}
