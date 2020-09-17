@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]
 
@@ -170,4 +170,4 @@ LOGIN_URL = 'login'
 
 TEMPLATED_EMAIL_BACKEND = 'templated_email.backends.vanilla_django'
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
